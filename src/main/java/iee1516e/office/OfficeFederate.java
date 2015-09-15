@@ -7,9 +7,8 @@ import hla.rti1516e.time.HLAfloat64TimeFactory;
 /**
  * Created by piotr on 15.09.2015.
  */
-public class OfficeFederate
-{
-    public static final int COUNT=5;
+public class OfficeFederate {
+    public static final int COUNT = 5;
     public static final String READY_TO_RUN = "ReadyToRun";
     public static RTIambassador rtiamb;
     private OfficeFederateAmbassador fedamb;

@@ -4,8 +4,7 @@ import hla.rti1516e.RtiFactoryFactory;
 import hla.rti1516e.encoding.*;
 import hla.rti1516e.exceptions.RTIinternalError;
 
-public class DecoderUtils
-{
+public class DecoderUtils {
 
     public static Integer decodeInteger(byte[] bytes) {
         HLAinteger32BE value = null;
@@ -37,7 +36,7 @@ public class DecoderUtils
         return value != null ? value.getValue() : -1;
     }
 
-    public static boolean decodeBoolean(byte[] bytes){
+    public static boolean decodeBoolean(byte[] bytes) {
         HLAboolean value = null;
         try {
             EncoderFactory encoderFactory = RtiFactoryFactory.getRtiFactory().getEncoderFactory();

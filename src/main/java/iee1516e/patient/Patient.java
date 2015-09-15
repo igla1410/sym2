@@ -3,8 +3,7 @@ package iee1516e.patient;
 /**
  * Created by pitt on 14.09.2015.
  */
-public class Patient
-{
+public class Patient {
     private int idPatient;
     private boolean cito = false;
     private int doctorPreference;
@@ -12,63 +11,51 @@ public class Patient
     private short registrationTime = -1;
     private short waitingTime = -1;
 
-    public int getIdPatient()
-    {
+    public int getIdPatient() {
         return idPatient;
     }
 
-    public void setIdPatient(int idPatient)
-    {
+    public void setIdPatient(int idPatient) {
         this.idPatient = idPatient;
     }
 
-    public boolean isCito()
-    {
+    public boolean isCito() {
         return cito;
     }
 
-    public void setCito(boolean cito)
-    {
+    public void setCito(boolean cito) {
         this.cito = cito;
     }
 
-    public int getDoctorPreference()
-    {
+    public int getDoctorPreference() {
         return doctorPreference;
     }
 
-    public void setDoctorPreference(int doctorPreference)
-    {
+    public void setDoctorPreference(int doctorPreference) {
         this.doctorPreference = doctorPreference;
     }
 
-    public short getServiceTime()
-    {
+    public short getServiceTime() {
         return serviceTime;
     }
 
-    public void setServiceTime(short serviceTime)
-    {
+    public void setServiceTime(short serviceTime) {
         this.serviceTime = serviceTime;
     }
 
-    public short getRegistrationTime()
-    {
+    public short getRegistrationTime() {
         return registrationTime;
     }
 
-    public void setRegistrationTime(short registrationTime)
-    {
+    public void setRegistrationTime(short registrationTime) {
         this.registrationTime = registrationTime;
     }
 
-    public short getWaitingTime()
-    {
+    public short getWaitingTime() {
         return waitingTime;
     }
 
-    public void setWaitingTime(short waitingTime)
-    {
+    public void setWaitingTime(short waitingTime) {
         this.waitingTime = waitingTime;
     }
 }

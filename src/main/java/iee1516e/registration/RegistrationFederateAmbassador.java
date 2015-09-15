@@ -7,8 +7,7 @@ import hla.rti1516e.time.HLAfloat64Time;
 /**
  * Created by piotr on 14.09.2015.
  */
-public class RegistrationFederateAmbassador extends NullFederateAmbassador
-{
+public class RegistrationFederateAmbassador extends NullFederateAmbassador {
     private RegistrationFederate federate;
     protected double federateTime = 0.0;
     protected double federateLookahead = 1.0;
@@ -21,67 +20,56 @@ public class RegistrationFederateAmbassador extends NullFederateAmbassador
     protected boolean isReadyToRun = false;
     protected boolean running = true;
 
-    public RegistrationFederateAmbassador(RegistrationFederate federate)
-    {
+    public RegistrationFederateAmbassador(RegistrationFederate federate) {
         this.federate = federate;
     }
 
-    private void log(String message)
-    {
+    private void log(String message) {
         System.out.println("czas: " + federate.getTimeAsShort() + " - FederateAmbassador: " + message);
     }
 
-    public void synchronizationPointRegistrationFailed(String label, SynchronizationPointFailureReason reason)
-    {
+    public void synchronizationPointRegistrationFailed(String label, SynchronizationPointFailureReason reason) {
         log("Failed to register sync point: " + label + ", reason=" + reason);
     }
 
-    public void synchronizationPointRegistrationSucceeded(String label)
-    {
+    public void synchronizationPointRegistrationSucceeded(String label) {
         log("Successfully registered sync point: " + label);
     }
 
-    public void announceSynchronizationPoint(String label, byte[] tag)
-    {
+    public void announceSynchronizationPoint(String label, byte[] tag) {
         log("Synchronization point announced: " + label);
         if (label.equals(RegistrationFederate.READY_TO_RUN))
             this.isAnnounced = true;
     }
 
-    public void federationSynchronized(String label, FederateHandleSet failed)
-    {
+    public void federationSynchronized(String label, FederateHandleSet failed) {
         log("Federation Synchronized: " + label);
         if (label.equals(RegistrationFederate.READY_TO_RUN))
             this.isReadyToRun = true;
     }
 
-    public void timeRegulationEnabled(LogicalTime time)
-    {
+    public void timeRegulationEnabled(LogicalTime time) {
         this.federateTime = ((HLAfloat64Time) time).getValue();
         this.isRegulating = true;
     }
 
-    public void timeConstrainedEnabled(LogicalTime time)
-    {
+    public void timeConstrainedEnabled(LogicalTime time) {
         this.federateTime = ((HLAfloat64Time) time).getValue();
         this.isConstrained = true;
     }
 
-    public void timeAdvanceGrant(LogicalTime time)
-    {
+    public void timeAdvanceGrant(LogicalTime time) {
         this.federateTime = ((HLAfloat64Time) time).getValue();
         this.isAdvancing = false;
     }
 
-    public void discoverObjectInstance(ObjectInstanceHandle theObject, ObjectClassHandle theObjectClass, String objectName) throws FederateInternalError
-    {
+    public void discoverObjectInstance(ObjectInstanceHandle theObject, ObjectClassHandle theObjectClass, String objectName) throws FederateInternalError {
         log("Discovered Object: handle=" + theObject + ", classHandle=" +
                 theObjectClass + ", name=" + objectName);
     }
 
     public void reflectAttributeValues(ObjectInstanceHandle theObject, AttributeHandleValueMap theAttributes, byte[] tag, OrderType sentOrder, TransportationTypeHandle transport,
-                                       SupplementalReflectInfo reflectInfo) throws FederateInternalError
-    {
+                                       SupplementalReflectInfo reflectInfo) throws FederateInternalError {
 
         reflectAttributeValues(theObject, theAttributes, tag, sentOrder, transport, null, sentOrder, reflectInfo);
     }
@@ -94,8 +82,7 @@ public class RegistrationFederateAmbassador extends NullFederateAmbassador
                                        LogicalTime time,
                                        OrderType receivedOrdering,
                                        SupplementalReflectInfo reflectInfo)
-            throws FederateInternalError
-    {
+            throws FederateInternalError {
     }
 
     public void receiveInteraction(InteractionClassHandle interactionClass,
@@ -104,8 +91,7 @@ public class RegistrationFederateAmbassador extends NullFederateAmbassador
                                    OrderType sentOrdering,
                                    TransportationTypeHandle theTransport,
                                    SupplementalReceiveInfo receiveInfo)
-            throws FederateInternalError
-    {
+            throws FederateInternalError {
 
         this.receiveInteraction(interactionClass,
                 theParameters,
@@ -125,8 +111,7 @@ public class RegistrationFederateAmbassador extends NullFederateAmbassador
                                    LogicalTime time,
                                    OrderType receivedOrdering,
                                    SupplementalReceiveInfo receiveInfo)
-            throws FederateInternalError
-    {
+            throws FederateInternalError {
        /* try {
             if (interactionClass.equals(RestauracjaFederate.rtiamb.getInteractionClassHandle("HLAinteractionRoot.zamkniecieRestauracji"))){
                 for (ParameterHandle parameter : theParameters.keySet()) {
@@ -148,8 +133,7 @@ public class RegistrationFederateAmbassador extends NullFederateAmbassador
                                      byte[] tag,
                                      OrderType sentOrdering,
                                      SupplementalRemoveInfo removeInfo)
-            throws FederateInternalError
-    {
+            throws FederateInternalError {
         log("Object Removed: handle=" + theObject);
     }
 }

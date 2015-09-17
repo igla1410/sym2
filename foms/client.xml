@@ -34,6 +34,16 @@
                     <order>TimeStamp</order>
                 </attribute>
                 <attribute>
+                    <name>registered</name>
+                    <dataType>BooleanType</dataType>
+                    <updateType>Periodic</updateType>
+                    <updateCondition>1/year</updateCondition>
+                    <ownership>DivestAcquire</ownership>
+                    <sharing>PublishSubscribe</sharing>
+                    <transportation>HLAreliable</transportation>
+                    <order>TimeStamp</order>
+                </attribute>
+                <attribute>
                     <name>doctorPreference</name>
                     <dataType>HLAinteger32BE</dataType>
                     <updateType>Conditional</updateType>
@@ -63,11 +73,45 @@
                     <transportation>HLAreliable</transportation>
                     <order>TimeStamp</order>
                 </attribute>
+            </objectClass>
+            <objectClass>
+                <name>Gabinet</name>
+                <sharing>PublishSubscribe</sharing>
                 <attribute>
-                    <name>visitTime</name>
-                    <dataType>TimeInSecType</dataType>
+                    <name>idGabinet</name>
+                    <dataType>IdType</dataType>
                     <updateType>Conditional</updateType>
-                    <updateCondition>Employee request</updateCondition>
+                    <updateCondition>Merit increase</updateCondition>
+                    <ownership>DivestAcquire</ownership>
+                    <sharing>PublishSubscribe</sharing>
+                    <transportation>HLAreliable</transportation>
+                    <order>TimeStamp</order>
+                </attribute>
+                <attribute>
+                    <name>idPatient</name>
+                    <dataType>HLAinteger32BE</dataType>
+                    <updateType>Periodic</updateType>
+                    <updateCondition>1/year</updateCondition>
+                    <ownership>DivestAcquire</ownership>
+                    <sharing>PublishSubscribe</sharing>
+                    <transportation>HLAreliable</transportation>
+                    <order>TimeStamp</order>
+                </attribute>
+                <attribute>
+                    <name>state</name>
+                    <dataType>HLAinteger32BE</dataType>
+                    <updateType>Periodic</updateType>
+                    <updateCondition>1/year</updateCondition>
+                    <ownership>DivestAcquire</ownership>
+                    <sharing>PublishSubscribe</sharing>
+                    <transportation>HLAreliable</transportation>
+                    <order>TimeStamp</order>
+                </attribute>
+                <attribute>
+                    <name>registrationLimit</name>
+                    <dataType>HLAinteger32BE</dataType>
+                    <updateType>Periodic</updateType>
+                    <updateCondition>1/year</updateCondition>
                     <ownership>DivestAcquire</ownership>
                     <sharing>PublishSubscribe</sharing>
                     <transportation>HLAreliable</transportation>
@@ -80,7 +124,7 @@
         <interactionClass>
             <name>HLAinteractionRoot</name>
             <interactionClass>
-                <name>Work</name>
+                <name>workStatus</name>
                 <sharing>PublishSubscribe</sharing>
                 <transportation>HLAreliable</transportation>
                 <order>TimeStamp</order>
@@ -90,30 +134,58 @@
                 </parameter>
             </interactionClass>
             <interactionClass>
+                <name>gabinetOpened</name>
+                <sharing>PublishSubscribe</sharing>
+                <transportation>HLAreliable</transportation>
+                <order>TimeStamp</order>
+                <parameter>
+                    <name>idGabinet</name>
+                    <dataType>IdType</dataType>
+                </parameter>
+                <parameter>
+                    <name>registrationLimit</name>
+                    <dataType>IdType</dataType>
+                </parameter>
+            </interactionClass>
+            <interactionClass>
                 <name>inRegistration</name>
                 <sharing>PublishSubscribe</sharing>
                 <transportation>HLAreliable</transportation>
                 <order>TimeStamp</order>
                 <parameter>
-                    <name>patientId</name>
-                    <dataType>IdType</dataType>
+                    <name>idPatient</name>
+                    <dataType>e</dataType>
                 </parameter>
                 <parameter>
-                    <name>gabinetId</name>
+                    <name>idGabinet</name>
                     <dataType>IdType</dataType>
                 </parameter>
             </interactionClass>
             <interactionClass>
-                <name>inWaitingRoom</name>
+                <name>patientWaiting</name>
                 <sharing>PublishSubscribe</sharing>
                 <transportation>HLAreliable</transportation>
                 <order>TimeStamp</order>
                 <parameter>
-                    <name>patientId</name>
+                    <name>idPatient</name>
                     <dataType>IdType</dataType>
                 </parameter>
                 <parameter>
-                    <name>gabinetId</name>
+                    <name>idGabinet</name>
+                    <dataType>IdType</dataType>
+                </parameter>
+            </interactionClass>
+            <interactionClass>
+                <name>patientReady</name>
+                <sharing>PublishSubscribe</sharing>
+                <transportation>HLAreliable</transportation>
+                <order>TimeStamp</order>
+                <parameter>
+                    <name>idPatient</name>
+                    <dataType>IdType</dataType>
+                </parameter>
+                <parameter>
+                    <name>idGabinet</name>
                     <dataType>IdType</dataType>
                 </parameter>
             </interactionClass>
@@ -123,11 +195,11 @@
                 <transportation>HLAreliable</transportation>
                 <order>TimeStamp</order>
                 <parameter>
-                    <name>patientId</name>
+                    <name>idPatient</name>
                     <dataType>IdType</dataType>
                 </parameter>
                 <parameter>
-                    <name>gabinetId</name>
+                    <name>idGabinet</name>
                     <dataType>IdType</dataType>
                 </parameter>
             </interactionClass>
@@ -137,22 +209,12 @@
                 <transportation>HLAreliable</transportation>
                 <order>TimeStamp</order>
                 <parameter>
-                    <name>patientId</name>
+                    <name>idPatient</name>
                     <dataType>IdType</dataType>
                 </parameter>
                 <parameter>
-                    <name>gabinetId</name>
+                    <name>idGabinet</name>
                     <dataType>IdType</dataType>
-                </parameter>
-            </interactionClass>
-            <interactionClass>
-                <name>waitingRoomFull</name>
-                <sharing>PublishSubscribe</sharing>
-                <transportation>HLAreliable</transportation>
-                <order>TimeStamp</order>
-                <parameter>
-                    <name>isFull</name>
-                    <dataType>BooleanType</dataType>
                 </parameter>
             </interactionClass>
             <interactionClass>
@@ -161,7 +223,7 @@
                 <transportation>HLAreliable</transportation>
                 <order>TimeStamp</order>
                 <parameter>
-                    <name>gabinetId</name>
+                    <name>idGabinet</name>
                     <dataType>IdType</dataType>
                 </parameter>
                 <parameter>

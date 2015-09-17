@@ -8,9 +8,19 @@ public class Patient
     private int idPatient;
     private boolean cito = false;
     private int doctorPreference;
-    private short serviceTime = -1;
     private short registrationTime = -1;
     private short waitingTime = -1;
+    private boolean registered = false;
+
+    public boolean isRegistered()
+    {
+        return registered;
+    }
+
+    public void setRegistered(boolean registered)
+    {
+        this.registered = registered;
+    }
 
     public int getIdPatient()
     {
@@ -40,16 +50,6 @@ public class Patient
     public void setDoctorPreference(int doctorPreference)
     {
         this.doctorPreference = doctorPreference;
-    }
-
-    public short getServiceTime()
-    {
-        return serviceTime;
-    }
-
-    public void setServiceTime(short serviceTime)
-    {
-        this.serviceTime = serviceTime;
     }
 
     public short getRegistrationTime()

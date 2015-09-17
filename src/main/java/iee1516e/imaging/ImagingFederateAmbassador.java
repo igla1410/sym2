@@ -1,15 +1,18 @@
-package iee1516e.patient;
+package iee1516e.imaging;
 
 import hla.rti1516e.*;
-import hla.rti1516e.exceptions.FederateInternalError;
+import hla.rti1516e.exceptions.*;
 import hla.rti1516e.time.HLAfloat64Time;
+import iee1516e.utils.DecoderUtils;
 
 /**
- * Created by pitt on 14.09.2015.
+ * Created by piotr on 16.09.2015.
  */
-public class PatientFederateAmbassador extends NullFederateAmbassador
+public class ImagingFederateAmbassador
+        extends NullFederateAmbassador
 {
-    private PatientFederate federate;
+    private ImagingFederate federate;
+
     protected double federateTime = 0.0;
     protected double federateLookahead = 1.0;
 
@@ -21,7 +24,8 @@ public class PatientFederateAmbassador extends NullFederateAmbassador
     protected boolean isReadyToRun = false;
     protected boolean running = true;
 
-    public PatientFederateAmbassador(PatientFederate federate)
+
+    public ImagingFederateAmbassador(ImagingFederate federate)
     {
         this.federate = federate;
     }
@@ -47,7 +51,7 @@ public class PatientFederateAmbassador extends NullFederateAmbassador
     public void announceSynchronizationPoint(String label, byte[] tag)
     {
         log("Synchronization point announced: " + label);
-        if (label.equals(PatientFederate.READY_TO_RUN))
+        if (label.equals(ImagingFederate.READY_TO_RUN))
             this.isAnnounced = true;
     }
 
@@ -55,7 +59,7 @@ public class PatientFederateAmbassador extends NullFederateAmbassador
     public void federationSynchronized(String label, FederateHandleSet failed)
     {
         log("Federation Synchronized: " + label);
-        if (label.equals(PatientFederate.READY_TO_RUN))
+        if (label.equals(ImagingFederate.READY_TO_RUN))
             this.isReadyToRun = true;
     }
 
@@ -83,8 +87,6 @@ public class PatientFederateAmbassador extends NullFederateAmbassador
     @Override
     public void discoverObjectInstance(ObjectInstanceHandle theObject, ObjectClassHandle theObjectClass, String objectName) throws FederateInternalError
     {
-        log("Discoverd Object: handle=" + theObject + ", classHandle=" +
-                theObjectClass + ", name=" + objectName);
     }
 
     @Override
@@ -106,46 +108,9 @@ public class PatientFederateAmbassador extends NullFederateAmbassador
                                        SupplementalReflectInfo reflectInfo)
             throws FederateInternalError
     {
-        StringBuilder builder = new StringBuilder("Reflection for object:");
 
-        builder.append(" handle=" + theObject);
-        builder.append(", tag=" + new String(tag));
-        if (time != null)
-        {
-            builder.append(", time=" + ((HLAfloat64Time) time).getValue());
-        }
-
-        builder.append(", attributeCount=" + theAttributes.size());
-        builder.append("\n");
-        /*for( AttributeHandle attributeHandle : theAttributes.keySet() )
-        {
-			builder.append( "\tattributeHandle=" );
-
-			if( attributeHandle.equals(federate.flavHandle) )
-			{
-				builder.append( attributeHandle );
-				builder.append( " (Flavor)    " );
-				builder.append( ", attributeValue=" );
-				builder.append( decodeFlavor(theAttributes.get(attributeHandle)) );
-			}
-			else if( attributeHandle.equals(federate.cupsHandle) )
-			{
-				builder.append( attributeHandle );
-				builder.append( " (NumberCups)" );
-				builder.append( ", attributeValue=" );
-				builder.append( decodeNumCups(theAttributes.get(attributeHandle)) );
-			}
-			else
-			{
-				builder.append( attributeHandle );
-				builder.append( " (Unknown)   " );
-			}
-
-			builder.append( "\n" );
-		}*/
-
-        log(builder.toString());
     }
+
 
     @Override
     public void receiveInteraction(InteractionClassHandle interactionClass,
@@ -178,9 +143,29 @@ public class PatientFederateAmbassador extends NullFederateAmbassador
                                    SupplementalReceiveInfo receiveInfo)
             throws FederateInternalError
     {
-        ///
+        try
+        {
+            if (interactionClass.equals(ImagingFederate.rtiamb.getInteractionClassHandle("HLAinteractionRoot.zamkniecieRestauracji")))
+            {
+                for (ParameterHandle parameter : theParameters.keySet())
+                {
+                    if (parameter.equals(ImagingFederate.rtiamb.getParameterHandle(interactionClass, "typKomunikatu")))
+                    {
+                        int typKomunikatu = DecoderUtils.decodeInteger(theParameters.get(parameter));
+                        if (typKomunikatu == 2)
+                        {
+                            log("KONIEC!");
+                            running = false;
+                        }
+                    }
+                }
+            }
+        }
+        catch (NameNotFound | FederateNotExecutionMember | NotConnected | RTIinternalError | InvalidInteractionClassHandle nameNotFound)
+        {
+            nameNotFound.printStackTrace();
+        }
     }
-
 
     @Override
     public void removeObjectInstance(ObjectInstanceHandle theObject,
@@ -189,6 +174,7 @@ public class PatientFederateAmbassador extends NullFederateAmbassador
                                      SupplementalRemoveInfo removeInfo)
             throws FederateInternalError
     {
-        log("Object Removed: handle=" + theObject);
+
+
     }
 }

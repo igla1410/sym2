@@ -30,11 +30,11 @@ package iee1516e.utils;
 
 
 /**
- *  <i>Standard random</i>. This class provides methods for generating
- *  random number from various distributions.
- *  <p>
- *  For additional documentation, see <a href="http://www.cs.princeton.edu/introcs/22library">Section 2.2</a> of
- *  <i>Introduction to Programming in Java: An Interdisciplinary Approach</i> by Robert Sedgewick and Kevin Wayne.
+ * <i>Standard random</i>. This class provides methods for generating
+ * random number from various distributions.
+ * <p>
+ * For additional documentation, see <a href="http://www.cs.princeton.edu/introcs/22library">Section 2.2</a> of
+ * <i>Introduction to Programming in Java: An Interdisciplinary Approach</i> by Robert Sedgewick and Kevin Wayne.
  */
 public class StdRandom
 {
@@ -54,6 +54,11 @@ public class StdRandom
     public static double uniform(double a, double b)
     {
         return a + Math.random() * (b - a);
+    }
+
+    public static int uniform(int a, int b)
+    {
+        return (int) (a + Math.random() * (b - a));
     }
 
     /**
@@ -231,7 +236,6 @@ public class StdRandom
             a[r] = temp;
         }
     }
-
 
 
 }
